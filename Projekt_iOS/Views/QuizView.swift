@@ -122,12 +122,14 @@ struct QuizView: View {
                     .bold()
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color(red: 0.39, green: 0.19, blue: 0.35))
+                // POPRAWKA wizualna: Jeśli jest błąd, przycisk staje się szary
+                    .background(bladWalidacji == nil ? Color(red: 0.39, green: 0.19, blue: 0.35) : Color.gray)
                     .foregroundColor(.white)
                     .cornerRadius(12)
                     .padding(.horizontal)
             }
-            .disabled(pytania.isEmpty)
+            // POPRAWKA: Blokujemy przycisk, jeśli występuje błąd walidacji danych wejściowych
+            .disabled(bladWalidacji != nil || pytania.isEmpty)
         }
         .navigationTitle("Quiz")
     }
