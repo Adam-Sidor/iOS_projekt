@@ -11,6 +11,8 @@ struct QuizView: View {
 
     @State private var started = false
     @State private var iloscPytan: Int = 10
+    @State private var tekstIlosciPytan: String = "5"
+    @State private var bladWalidacji: String? = nil
     @State private var losowePytania: [Pytanie] = []
     @State private var odpowiedzi: [Int: Int] = [:]  // [indeksPytania: wybranaOdpowiedz]
     @State private var pokazWynik = false
@@ -49,31 +51,58 @@ struct QuizView: View {
                 HStack {
                     Text("Liczba pytań:")
                     Spacer()
-                    TextField("5–\(pytania.count)", text: Binding(
-                        get: { String(iloscPytan) },
-                        set: {
-                            iloscPytan = Int($0) ?? 5
-                            if iloscPytan > pytania.count {
-                                iloscPytan = pytania.count
-                            }
-                            if iloscPytan < 5 {
-                                iloscPytan = 5
-                            }
-                        }
-                    ))
-                        .keyboardType(.numberPad)
-                        .multilineTextAlignment(.center)
-                        .frame(width: 60)
-                        .padding(8)
-                        .background(Color(.secondarySystemBackground))
-                        .cornerRadius(8)
+                    // Pole tekstowe spięte z surowym tekstem wpisywanym przez użytkownika
+                                        TextField("5–\(pytania.count)", text: $tekstIlosciPytan)
+                                            .keyboardType(.numberPad)
+                                            .multilineTextAlignment(.center)
+                                            .frame(width: 60)
+                                            .padding(8)
+                                            .background(Color(.secondarySystemBackground))
+                                            .cornerRadius(8)
+                                            
+                                            // --- TUTAJ DZIEJE SIĘ WALIDACJA ---
+                                            .onChange(of: tekstIlosciPytan) { nowyTekst in
+                                                if nowyTekst.isEmpty {
+                                                    bladWalidacji = "Pole nie może być puste!"
+                                                    return
+                                                }
+                                                
+                                                // Sprawdzanie poprawności: Czy użytkownik wpisał poprawne cyfry?
+                                                guard let liczba = Int(nowyTekst) else {
+                                                    bladWalidacji = "Musisz wpisać liczby!"
+                                                    return
+                                                }
+                                                // Sprawdzanie poprawności: Czy liczba mieści się w dozwolonym zakresie?
+                                                                            if liczba < 5 {
+                                                                                bladWalidacji = "Minimum to 5 pytań!"
+                                                                            } else if liczba > pytania.count {
+                                                                                bladWalidacji = "Maksimum to \(pytania.count) pytań!"
+                                                                            } else {
+                                                                                // Dane wejściowe są w 100% poprawne
+                                                                                bladWalidacji = nil
+                                                                                iloscPytan = liczba
+                                                                            }
+                                                                        }
                 }
                 .padding(.horizontal)
+                // Wizualny komunikat o błędzie dla użytkownika (i profesora!)
+                                if let komunikatBledu = bladWalidacji {
+                                    Text(komunikatBledu)
+                                        .font(.caption)
+                                        .foregroundColor(.red)
+                                        .bold()
+                                        .transition(.opacity)
+                                }
                 // Suwak jako alternatywa
                 Slider(
                     value: Binding(
                         get: { Double(iloscPytan) },
-                        set: { iloscPytan = Int($0) }
+                        set: { nowaWartosc in
+                            let liczba = Int(nowaWartosc)
+                            iloscPytan = liczba
+                            tekstIlosciPytan = String(liczba)
+                            bladWalidacji = nil
+                        }
                     ),
                     in: 5...Double(max(pytania.count, 5)),
                     step: 1
