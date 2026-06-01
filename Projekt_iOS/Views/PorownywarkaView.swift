@@ -32,6 +32,17 @@ struct PorownywarkaView: View {
 
                     Image(systemName: "arrow.left.arrow.right")
                         .foregroundColor(.secondary)
+                        .font(.title2) // Powiększyłem odrobinę ikonę, żeby łatwiej było w nią kliknąć
+                        .padding(.horizontal, 4)
+                        
+                        // Obsługa gestu podwójnego tapnięcia
+                        .onTapGesture(count: 2) {
+                            // withAnimation sprawi, że tabela zamiany płynnie zniknie
+                            withAnimation(.easeInOut) {
+                                postac1 = nil
+                                postac2 = nil
+                            }
+                        }
 
                     Picker("Postać 2", selection: $postac2) {
                         Text("Wybierz").tag(Optional<Postac>(nil))
