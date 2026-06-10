@@ -85,7 +85,7 @@ struct QuizView: View {
                                                                         }
                 }
                 .padding(.horizontal)
-                // Wizualny komunikat o błędzie dla użytkownika (i profesora!)
+                // Wizualny komunikat o błędzie dla użytkownika
                                 if let komunikatBledu = bladWalidacji {
                                     Text(komunikatBledu)
                                         .font(.caption)
@@ -122,13 +122,13 @@ struct QuizView: View {
                     .bold()
                     .frame(maxWidth: .infinity)
                     .padding()
-                // POPRAWKA wizualna: Jeśli jest błąd, przycisk staje się szary
+                // Jeśli jest błąd, przycisk staje się szary
                     .background(bladWalidacji == nil ? Color(red: 0.39, green: 0.19, blue: 0.35) : Color.gray)
                     .foregroundColor(.white)
                     .cornerRadius(12)
                     .padding(.horizontal)
             }
-            // POPRAWKA: Blokujemy przycisk, jeśli występuje błąd walidacji danych wejściowych
+            // Blokujemy przycisk, jeśli występuje błąd walidacji danych wejściowych
             .disabled(bladWalidacji != nil || pytania.isEmpty)
         }
         .navigationTitle("Quiz")
@@ -227,7 +227,7 @@ struct QuizView: View {
             Button("Zagraj ponownie") {
                 odpowiedzi = [:]
                 pokazWynik = false
-                losowePytania = Array(pytania.shuffled().prefix(10))
+                losowePytania = Array(pytania.shuffled().prefix(iloscPytan))
             }
             .padding(.top, 8)
         }

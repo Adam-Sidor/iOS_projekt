@@ -24,7 +24,6 @@ struct SzczegolyView: View {
                                             jestPowiekszony = pressing
                                         }, perform: {
                                             // Ta sekcja wykonuje się TYLKO, gdy użytkownik przytrzyma obrazek przez pełne 0.5 sekundy.
-                                            // Możesz zostawić ją pustą, bo zmianę rozmiaru obsługujemy już wyżej!
                                         })
                 }
 

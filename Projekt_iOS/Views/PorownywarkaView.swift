@@ -32,12 +32,11 @@ struct PorownywarkaView: View {
 
                     Image(systemName: "arrow.left.arrow.right")
                         .foregroundColor(.secondary)
-                        .font(.title2) // Powiększyłem odrobinę ikonę, żeby łatwiej było w nią kliknąć
+                        .font(.title2)
                         .padding(.horizontal, 4)
                         
                         // Obsługa gestu podwójnego tapnięcia
                         .onTapGesture(count: 2) {
-                            // withAnimation sprawi, że tabela zamiany płynnie zniknie
                             withAnimation(.easeInOut) {
                                 postac1 = nil
                                 postac2 = nil
@@ -59,7 +58,7 @@ struct PorownywarkaView: View {
                 .padding()
 
                 // Tabela
-                if postac1 != nil && postac2 != nil {
+                if postac1 != nil && postac2 != nil && postac1 != postac2{
                     // Nagłówek
                     HStack {
                         Text("Atrybut")
