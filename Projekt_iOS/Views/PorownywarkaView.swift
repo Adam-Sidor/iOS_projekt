@@ -108,6 +108,7 @@ struct PorownywarkaView: View {
     }
 
     // Gwiazdki dla danej postaci i atrybutu
+    //Konstruktor widoków, pozwala funkcji zwracać interfejs w zależności od warunków logicznych
     @ViewBuilder
     func gwiazdki(postac: Postac?, atrybut: String) -> some View {
         if let postac = postac,
