@@ -11,7 +11,7 @@ struct QuizView: View {
 
     @State private var started = false
     @State private var iloscPytan: Int = 10
-    @State private var tekstIlosciPytan: String = "5"
+    @State private var tekstIlosciPytan: String = "10"
     @State private var bladWalidacji: String? = nil
     @State private var losowePytania: [Pytanie] = []
     @State private var odpowiedzi: [Int: Int] = [:]  // [indeksPytania: wybranaOdpowiedz]
